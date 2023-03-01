@@ -14,3 +14,9 @@ button_report.addEventListener("click", function() {
 
 });
 
+function showImage(image_path) {
+  document.getElementById('image')
+                    .style.display = "block"
+  document.getElementById("Show_Image")
+                    .style.display = "none";
+}

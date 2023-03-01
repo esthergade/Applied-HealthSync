@@ -11,6 +11,12 @@
     <script src="https://pyscript.net/latest/pyscript.js"></script>
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
 
+<!-- so i dont display image right away-->
+    <style>
+    #image {
+        display: none;
+    }
+    </style>
 </head>
 <body>
 
@@ -22,9 +28,14 @@
         <button id = "button">Report health data</button>
     </form>
 
-    <form method="post" action="/run-script">
-        <button id = "see_data" type="submit">See health data</button>
-    </form>
+    <div>
+        <img id="image" src='./plots/plot.png' alt="GFG image">
+    </div>
+
+    <button type = "button" id = "Show_Image" onclick="showImage()">See health data</button>
+
+ 
+
 
     <script src = "./healthapp.js">  </script>
 
