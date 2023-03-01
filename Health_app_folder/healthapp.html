@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <title>Healthapp</title>
+
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script src="https://pyscript.net/latest/pyscript.js"></script>
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
 </head>
 <body>
 
@@ -17,8 +22,15 @@
         <button id = "button">Report health data</button>
     </form>
 
+    <form method="post" action="/run-script">
+        <button id = "see_data" type="submit">See health data</button>
+    </form>
 
     <script src = "./healthapp.js">  </script>
+
+    <py-script src="./plots.py"></py-script>
+
+
 
 </body>
 
