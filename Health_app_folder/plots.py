@@ -10,9 +10,10 @@ date_time = pd.to_datetime(date_time)
 
 df = pd.DataFrame(blood_pressure, date_time)
 
-plt.plot(df)
-plt.xlabel("Date Time")
-plt.ylabel("Blood Pressure")
-plt.savefig('Health_app_folder/plots/plot.png')
+#plt.plot(df)
+#plt.xlabel("Date Time")
+#plt.ylabel("Blood Pressure")
+#plt.savefig('Health_app_folder/plots/plot.png')
 
+print("l")
 
