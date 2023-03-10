@@ -53,7 +53,7 @@ class ChildApp(GridLayout):
 
 
     def report(self, instance):
-        print("Your blood presure is "+self.s_bloodpressure.text)
+        print("Your blood presure is "+self.s_bloodpressure_sys.text)
         blood_pressure_sys = int(self.s_bloodpressure_sys.text)
         blood_pressure_dia = int(self.s_bloodpressure_dia.text)
 
