@@ -16,10 +16,12 @@ from kivy.uix.button import Button
 #defining lists that will be used later
 bloodpresure_sys_list = []
 bloodpresure_dia_list = []
+heartrate_list = []
 date_list = []
 test_dates5 = ['03/12/22', '01/01/23', '01/05/23', '15/06/23', '1/07/23'] #this is a test list
 
 test_dates5 = pd.to_datetime(test_dates5, format="%d/%m/%y") #converting to actual dates instead of text
+
 
 
 # defining a function that gives us the day today
@@ -59,12 +61,16 @@ class ChildApp(GridLayout):
         #converting from text to integer
         blood_pressure_sys = int(self.s_bloodpressure_sys.text)
         blood_pressure_dia = int(self.s_bloodpressure_dia.text)
+        heartrate = int(self.s_heartrate.text)
         #appending to the lists so we can make a plot
         bloodpresure_sys_list.append(blood_pressure_sys)
         bloodpresure_dia_list.append(blood_pressure_dia)
+        heartrate_list.append(heartrate)
         date_list.append(today) #i defined "today" ealier in the code
         #making a datafram so we can save a csv-file.
-        df = pd.DataFrame(bloodpresure_sys_list, bloodpresure_dia_list, date_list)
+        #creating a dictionary from our data
+        dict = {'systolic': bloodpresure_sys_list, 'diastolic': bloodpresure_dia_list, 'Heartrate': heartrate, 'date': date_list}
+        df = pd.DataFrame(dict)
 
         #printing to see if it works.
         print(bloodpresure_sys_list, bloodpresure_dia_list, test_dates5)
@@ -80,6 +86,7 @@ class ChildApp(GridLayout):
         plt.plot(test_dates5, bloodpresure_dia_list, color ='g', label = "diastolic")
         plt.legend()
         plt.show()
+
 
 
 #defining the parent app
