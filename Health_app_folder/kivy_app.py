@@ -73,7 +73,7 @@ class ChildApp(GridLayout):
         if blood_pressure_sys > 120:
             print("Go to your doctor")
         
-
+        
 # if you click on the see health data button, then it will show a plot of the reported health data.
     def see_health(self, instance):
         plt.plot(test_dates5, bloodpresure_sys_list, color ='r', label = "systolic")
