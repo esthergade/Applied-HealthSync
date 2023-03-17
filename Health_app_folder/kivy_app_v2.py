@@ -76,7 +76,16 @@ class ChildApp(GridLayout):
         print(bloodpresure_sys_list, bloodpresure_dia_list, test_dates5)
         
         # creating conditionals for pop ups
-        
+        if blood_pressure_sys <= 120 and blood_pressure_dia <= 80:
+            print("optimal blood pressure")
+        elif blood_pressure_sys > 120 and blood_pressure_sys <= 129 and blood_pressure_dia >= 80:
+            print("elevated blood pressure")
+        elif blood_pressure_sys >= 140 or blood_pressure_dia >= 90:
+            print ("stage 2 hypertension")
+        elif blood_pressure_sys > 130 and blood_pressure_sys <= 139 or blood_pressure_dia > 80 and blood_pressure_dia <= 89:
+            print("stage 1 hypertension")
+        elif blood_pressure_sys >= 180 or blood_pressure_dia >= 120:
+            print("blood pressure in hypertensive emergency - seek medical care immediately")
         
 # if you click on the see health data button, then it will show a plot of the reported health data.
     def see_health(self, instance):
