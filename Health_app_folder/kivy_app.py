@@ -59,13 +59,17 @@ class ChildApp(GridLayout):
         #just printing to make sure it works
         print("Your blood presure is "+self.s_bloodpressure_sys.text)
         #converting from text to integer
+        
         blood_pressure_sys = int(self.s_bloodpressure_sys.text)
         blood_pressure_dia = int(self.s_bloodpressure_dia.text)
         heartrate = int(self.s_heartrate.text)
+        
         #appending to the lists so we can make a plot
         bloodpresure_sys_list.append(blood_pressure_sys)
         bloodpresure_dia_list.append(blood_pressure_dia)
         heartrate_list.append(heartrate)
+        
+        
         date_list.append(today) #i defined "today" ealier in the code
         #making a datafram so we can save a csv-file.
         #creating a dictionary from our data
