@@ -12,21 +12,6 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
-from kivy.lang import Builder 
-from kivy.app import runTouchApp
-from kivy.uix.widget import Widget 
-
-Builder.load_file('popup.kv')
-
-class MyLayout(Widget):
-    pass
-
-class AwesomeApp(App):
-    def build(self):
-        return MyLayout()
-    
-if _name_ == '_main_':
-    AwesomeApp().run()
 
 #defining lists that will be used later
 bloodpresure_sys_list = []
@@ -74,17 +59,13 @@ class ChildApp(GridLayout):
         #just printing to make sure it works
         print("Your blood presure is "+self.s_bloodpressure_sys.text)
         #converting from text to integer
-        
         blood_pressure_sys = int(self.s_bloodpressure_sys.text)
         blood_pressure_dia = int(self.s_bloodpressure_dia.text)
         heartrate = int(self.s_heartrate.text)
-        
         #appending to the lists so we can make a plot
         bloodpresure_sys_list.append(blood_pressure_sys)
         bloodpresure_dia_list.append(blood_pressure_dia)
         heartrate_list.append(heartrate)
-        
-        
         date_list.append(today) #i defined "today" ealier in the code
         #making a datafram so we can save a csv-file.
         #creating a dictionary from our data
@@ -94,10 +75,20 @@ class ChildApp(GridLayout):
         #printing to see if it works.
         print(bloodpresure_sys_list, bloodpresure_dia_list, test_dates5)
         
-        if blood_pressure_sys > 120:
-            print("Go to your doctor")
-        
-        
+        # creating conditionals for pop ups
+        if blood_pressure_sys <= 120 and blood_pressure_dia <= 80:
+            print("optimal blood pressure")
+        elif blood_pressure_sys > 120 and blood_pressure_sys <= 129 and blood_pressure_dia >= 80:
+            print("elevated blood pressure")
+        elif blood_pressure_sys >= 140 or blood_pressure_dia >= 90:
+            print ("stage 2 hypertension")
+        elif blood_pressure_sys > 130 and blood_pressure_sys <= 139 or blood_pressure_dia > 80 and blood_pressure_dia <= 89:
+            print("stage 1 hypertension")
+        elif blood_pressure_sys >= 180 or blood_pressure_dia >= 120:
+            print("blood pressure in hypertensive emergency - seek medical care immediately")
+
+        #saving a csv
+        df.to_csv('./csv_data/health_data.csv')
 # if you click on the see health data button, then it will show a plot of the reported health data.
     def see_health(self, instance):
         plt.plot(test_dates5, bloodpresure_sys_list, color ='r', label = "systolic")
