@@ -75,7 +75,8 @@ class ChildApp(GridLayout):
         #printing to see if it works.
         print(bloodpresure_sys_list, bloodpresure_dia_list, test_dates5)
         
-        # creating conditionals for pop ups
+        if blood_pressure_sys > 120:
+            print("Go to your doctor")
         
         
 # if you click on the see health data button, then it will show a plot of the reported health data.
