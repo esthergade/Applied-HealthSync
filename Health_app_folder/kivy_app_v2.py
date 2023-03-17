@@ -86,7 +86,9 @@ class ChildApp(GridLayout):
             print("stage 1 hypertension")
         elif blood_pressure_sys >= 180 or blood_pressure_dia >= 120:
             print("blood pressure in hypertensive emergency - seek medical care immediately")
-        
+
+        #saving a csv
+        df.to_csv('./csv_data/health_data.csv')
 # if you click on the see health data button, then it will show a plot of the reported health data.
     def see_health(self, instance):
         plt.plot(test_dates5, bloodpresure_sys_list, color ='r', label = "systolic")
