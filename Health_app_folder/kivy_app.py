@@ -12,6 +12,21 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
+from kivy.lang import Builder 
+from kivy.app import runTouchApp
+from kivy.uix.widget import Widget 
+
+Builder.load_file('popup.kv')
+
+class MyLayout(Widget):
+    pass
+
+class AwesomeApp(App):
+    def build(self):
+        return MyLayout()
+    
+if _name_ == '_main_':
+    AwesomeApp().run()
 
 #defining lists that will be used later
 bloodpresure_sys_list = []
