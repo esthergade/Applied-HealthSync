@@ -18,8 +18,6 @@ bloodpresure_sys_list = []
 bloodpresure_dia_list = []
 heartrate_list = []
 date_list = []
-test_dates5 = ['03/12/22', '01/01/23', '01/05/23', '15/06/23', '1/07/23'] #this is a test list
-
 
 try:
     df = pd.read_csv('./csv_data/health_data.csv')
