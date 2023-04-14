@@ -19,9 +19,12 @@ bloodpresure_sys_list = []
 bloodpresure_dia_list = []
 heartrate_list = []
 date_list = []
-test_dates5 = ['03/12/22', '01/01/23', '01/05/23', '15/06/23', '1/07/23'] #this is a test list
 
-test_dates5 = pd.to_datetime(test_dates5, format="%d/%m/%y") #converting to actual dates instead of text
+try:
+    df = pd.read_csv('./csv_data/health_data.csv')
+except FileNotFoundError:
+    df = pd.DataFrame({'systolic': bloodpresure_sys_list, 'diastolic': bloodpresure_dia_list, 'Heartrate': heartrate_list, 'date': date_list})
+
 
 #making a login screen
 class LoginScreen(GridLayout):
@@ -102,8 +105,10 @@ class ChildApp(GridLayout):
         date_list.append(today) #i defined "today" ealier in the code
         #making a datafram so we can save a csv-file.
         #creating a dictionary from our data
-        dict = {'systolic': bloodpresure_sys_list, 'diastolic': bloodpresure_dia_list, 'Heartrate': heartrate, 'date': date_list}
-        df = pd.DataFrame(dict)
+        dict2 = {'systolic': bloodpresure_sys_list, 'diastolic': bloodpresure_dia_list, 'Heartrate': heartrate_list, 'date': date_list}
+        df2 = pd.DataFrame(dict2)
+        df3 = pd.concat([df, df2])
+        print(df3)
 
         #printing to see if it works.
         print(bloodpresure_sys_list, bloodpresure_dia_list, test_dates5)
@@ -121,9 +126,10 @@ class ChildApp(GridLayout):
             print("blood pressure in hypertensive emergency - seek medical care immediately")
 
         #saving a csv
-        df.to_csv('./csv_data/health_data.csv')
+        df3.to_csv('./csv_data/health_data.csv')
 # if you click on the see health data button, then it will show a plot of the reported health data.
     def see_health(self, instance):
+        df3 = pd.read_csv('./csv_data/health_data.csv')
         plt.plot(test_dates5, bloodpresure_sys_list, color ='r', label = "systolic")
         plt.plot(test_dates5, bloodpresure_dia_list, color ='g', label = "diastolic")
         plt.legend()
