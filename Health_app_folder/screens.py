@@ -1,69 +1,13 @@
-#kivy app
-
-#importing relevant libraries
-import kivy
-import matplotlib.pyplot as plt
-import pandas as pd
-from datetime import date
-from datetime import datetime
-
 from kivy.app import App
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
+from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 
-#defining lists that will be used later
-bloodpresure_sys_list = []
-bloodpresure_dia_list = []
-heartrate_list = []
-date_list = []
 
-try:
-    df = pd.read_csv('./csv_data/health_data.csv')
-except FileNotFoundError:
-    df = pd.DataFrame({'systolic': bloodpresure_sys_list, 'diastolic': bloodpresure_dia_list, 'Heartrate': heartrate_list, 'date': date_list})
+class MainWindow(Screen):
+    pass
 
 
-#making a login screen
-class LoginScreen(GridLayout):
-    def __init__(self, **kwargs):
-        super(LoginScreen, self).__init__()
-        self.cols = 2
-
-        self.add_widget(Label(text = 'Username'))
-        self.username = TextInput(multiline = False)
-        self.add_widget(self.username)
-
-        self.add_widget(Label(text = 'Password'))
-        self.password = TextInput(password = True, multiline = False)
-        self.add_widget(self.password)
-
-        self.press = Button(text= "Login")
-        self.press.bind(on_press = self.login)
-        self.add_widget(Label())
-        self.add_widget(self.press)
-
-    def login(self, instance):
-        print("Username:", self.username.text, "Password:", self.password.text)
-        if self.username.text == "test" and self.password.text == "test":
-            print("Login succesful")
-            #if Login succesful, go to class ChildApp
-            SecondApp().run()
-            #and close the login screen
-            ParentApp().stop()
-        else:
-            print("Login unsuccesful")
-        
-
-
-# defining a function that gives us the day today
-today = date.today()
-today = today.strftime("%d/%m/%y")
-
-#defining the child app.
-class ChildApp(GridLayout): 
+class SecondWindow(Screen):
     def __init__(self, **kwargs):
         super(ChildApp, self).__init__()
         self.cols = 2 #two collumns in the app.
@@ -134,16 +78,17 @@ class ChildApp(GridLayout):
         plt.show()
 
 
-#defining the parent app
-class ParentApp(App):
+class WindowManager(ScreenManager):
+    pass
+
+
+kv = Builder.load_file("Buttons.kv")
+
+
+class MyMainApp(App):
     def build(self):
-        return LoginScreen()
-
-class SecondApp(App):
-    def build(self):
-        return ChildApp()
+        return kv
 
 
-#if you run the app then run it?
 if __name__ == "__main__":
-    ParentApp().run()
+    MyMainApp().run()
