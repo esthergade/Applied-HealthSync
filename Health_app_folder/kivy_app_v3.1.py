@@ -12,7 +12,10 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
+from kivy.uix.image import Image
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.boxlayout import BoxLayout
+
 
 #defining lists that will be used later
 bloodpresure_sys_list = []
@@ -20,42 +23,13 @@ bloodpresure_dia_list = []
 heartrate_list = []
 date_list = []
 
+
 try:
     df = pd.read_csv('./csv_data/health_data.csv')
 except FileNotFoundError:
     df = pd.DataFrame({'systolic': bloodpresure_sys_list, 'diastolic': bloodpresure_dia_list, 'Heartrate': heartrate_list, 'date': date_list})
 
 
-#making a login screen
-class LoginScreen(GridLayout):
-    def __init__(self, **kwargs):
-        super(LoginScreen, self).__init__()
-        self.cols = 2
-
-        self.add_widget(Label(text = 'Username'))
-        self.username = TextInput(multiline = False)
-        self.add_widget(self.username)
-
-        self.add_widget(Label(text = 'Password'))
-        self.password = TextInput(password = True, multiline = False)
-        self.add_widget(self.password)
-
-        self.press = Button(text= "Login")
-        self.press.bind(on_press = self.login)
-        self.add_widget(Label())
-        self.add_widget(self.press)
-
-    def login(self, instance):
-        print("Username:", self.username.text, "Password:", self.password.text)
-        if self.username.text == "test" and self.password.text == "test":
-            print("Login succesful")
-            #if Login succesful, go to class ChildApp
-            SecondApp().run()
-            #and close the login screen
-            ParentApp().stop()
-        else:
-            print("Login unsuccesful")
-        
 
 
 # defining a function that gives us the day today
@@ -80,11 +54,11 @@ class ChildApp(GridLayout):
         self.s_heartrate = TextInput()
         self.add_widget(self.s_heartrate)
 
-        self.press = Button(text= "Report Health data") #adding a button for reporting the typed in data
+        self.press = Button(text= "", background_normal='Buttons/buttons_report.png') #adding a button for reporting the typed in data
         self.press.bind(on_press = self.report) #we have not defined yet what this button does
         self.add_widget(self.press)
 
-        self.press = Button(text= "See Health data")#adding a button for plotting the reported data
+        self.press = Button(text= "", background_normal='Buttons/buttons_graph.png')#adding a button for plotting the reported data
         self.press.bind(on_press = self.see_health) #we have not defined yet what this button does
         self.add_widget(self.press)
 
@@ -97,19 +71,18 @@ class ChildApp(GridLayout):
         blood_pressure_dia = int(self.s_bloodpressure_dia.text)
         heartrate = int(self.s_heartrate.text)
         #appending to the lists so we can make a plot
+
         bloodpresure_sys_list.append(blood_pressure_sys)
         bloodpresure_dia_list.append(blood_pressure_dia)
         heartrate_list.append(heartrate)
         date_list.append(today) #i defined "today" ealier in the code
-        #making a datafram so we can save a csv-file.
-        #creating a dictionary from our data
+
+
         dict2 = {'systolic': bloodpresure_sys_list, 'diastolic': bloodpresure_dia_list, 'Heartrate': heartrate_list, 'date': date_list}
         df2 = pd.DataFrame(dict2)
         df3 = pd.concat([df, df2])
         print(df3)
 
-        #printing to see if it works.
-        print(bloodpresure_sys_list, bloodpresure_dia_list)
 
         # creating conditionals for pop ups
         if blood_pressure_sys <= 120 and blood_pressure_dia <= 80:
@@ -122,9 +95,9 @@ class ChildApp(GridLayout):
             print("stage 1 hypertension")
         elif blood_pressure_sys >= 180 or blood_pressure_dia >= 120:
             print("blood pressure in hypertensive emergency - seek medical care immediately")
-
         #saving a csv
         df3.to_csv('./csv_data/health_data.csv')
+
 # if you click on the see health data button, then it will show a plot of the reported health data.
     def see_health(self, instance):
         df3 = pd.read_csv('./csv_data/health_data.csv')
@@ -134,15 +107,11 @@ class ChildApp(GridLayout):
         plt.show()
 
 
+
 #defining the parent app
 class ParentApp(App):
     def build(self):
-        return LoginScreen()
-
-class SecondApp(App):
-    def build(self):
         return ChildApp()
-
 
 #if you run the app then run it?
 if __name__ == "__main__":
