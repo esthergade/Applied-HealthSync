@@ -59,6 +59,7 @@ class MyPopup(Popup):
         elif blood_pressure_sys > 129 or blood_pressure_dia > 89:
             if blood_pressure_sys >= 180 or blood_pressure_dia >= 120:
                 self.content = Label(text="Blood pressure in hypertensive emergency - seek medical care immediately")
+                self.size = (550, 200)
             elif blood_pressure_sys >= 140 or blood_pressure_dia >= 90:
                 self.content = Label(text='Stage 2 hypertension')
             elif blood_pressure_sys >= 130 or blood_pressure_dia >= 80:
