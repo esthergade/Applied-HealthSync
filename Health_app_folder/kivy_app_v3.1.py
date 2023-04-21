@@ -11,10 +11,12 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
+from kivy.core.window import Window
 
 
 #defining lists that will be used later
@@ -25,7 +27,7 @@ date_list = []
 
 
 try:
-    df = pd.read_csv('./csv_data/health_data.csv')
+    df = pd.read_csv('Health_app_folder/csv_data/health_data.csv')
 except FileNotFoundError:
     df = pd.DataFrame({'systolic': bloodpresure_sys_list, 'diastolic': bloodpresure_dia_list, 'Heartrate': heartrate_list, 'date': date_list})
 
@@ -36,17 +38,48 @@ except FileNotFoundError:
 today = date.today()
 today = today.strftime("%d/%m/%y")
 
+class MyPopup(Popup):
+    def __init__(self, **kwargs):
+        super(MyPopup, self).__init__(**kwargs)
+        self.title = 'Blood pressure status'
+        self.size_hint = (None, None)
+        self.size = (400, 200)
+
+        df4 = pd.read_csv('Health_app_folder/csv_data/health_data.csv')
+        #take the last row from the dataframe
+        df4 = df4.tail(1)
+        #defining the variables blood_pressure_sys and blood_pressure_dia
+        blood_pressure_sys = df4['systolic'].values[0]
+        blood_pressure_dia = df4['diastolic'].values[0]
+
+
+        #defining the content of the popup
+        if blood_pressure_sys <= 120 and blood_pressure_dia <= 80:
+            self.content = Label(text='Blood pressure is optimal')
+        elif blood_pressure_sys > 129 or blood_pressure_dia > 89:
+            if blood_pressure_sys >= 180 or blood_pressure_dia >= 120:
+                self.content = Label(text="Blood pressure in hypertensive emergency - seek medical care immediately")
+            elif blood_pressure_sys >= 140 or blood_pressure_dia >= 90:
+                self.content = Label(text='Stage 2 hypertension')
+            elif blood_pressure_sys >= 130 or blood_pressure_dia >= 80:
+                self.content = Label(text='Stage 1 hypertension')
+        else:
+            self.content = Label(text='Blood pressure is elevated') 
+
+            
+
+
 #defining the child app.
 class ChildApp(GridLayout): 
     def __init__(self, **kwargs):
         super(ChildApp, self).__init__()
-        self.cols = 2 #two collumns in the app.
+        self.cols = 2
 
-        self.add_widget(Label(text = 'Enter systolic blood pressure (mm Hg)')) #adding a text input for systolic
+        self.add_widget(Label(text = 'Enter systolic \nblood pressure (mm Hg)')) #adding a text input for systolic
         self.s_bloodpressure_sys = TextInput() #using the TextIput function earlier imported
         self.add_widget(self.s_bloodpressure_sys) #adding it as a widget
 
-        self.add_widget(Label(text = 'Enter diastolic blood pressure (mm Hg)')) #doing the same for diastolic
+        self.add_widget(Label(text = 'Enter diastolic \nblood pressure (mm Hg)')) #doing the same for diastolic
         self.s_bloodpressure_dia = TextInput()
         self.add_widget(self.s_bloodpressure_dia)
 
@@ -96,11 +129,15 @@ class ChildApp(GridLayout):
         elif blood_pressure_sys >= 180 or blood_pressure_dia >= 120:
             print("blood pressure in hypertensive emergency - seek medical care immediately")
         #saving a csv
-        df3.to_csv('./csv_data/health_data.csv')
+        df3.to_csv('Health_app_folder/csv_data/health_data.csv')
+
+        #opening the popup
+        popup = MyPopup()
+        popup.open()
 
 # if you click on the see health data button, then it will show a plot of the reported health data.
     def see_health(self, instance):
-        df3 = pd.read_csv('./csv_data/health_data.csv')
+        df3 = pd.read_csv('Health_app_folder/csv_data/health_data.csv')
         plt.plot(df3['date'], df3['systolic'], color ='r', label = "systolic")
         plt.plot(df3['date'], df3['diastolic'], color ='g', label = "diastolic")
         plt.legend()
