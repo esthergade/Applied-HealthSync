@@ -56,18 +56,24 @@ class MyPopup(Popup):
         #defining the content of the popup
         if blood_pressure_sys <= 120 and blood_pressure_dia <= 80:
             self.content = Label(text='Blood pressure is optimal')
-        elif blood_pressure_sys > 129 or blood_pressure_dia > 89:
+            self.content.color = (0, 1, 0, 1)  # This sets the color to full green with opacity
+        elif blood_pressure_sys > 129 or blood_pressure_dia > 80:
             if blood_pressure_sys >= 180 or blood_pressure_dia >= 120:
                 self.content = Label(text="Blood pressure in hypertensive emergency - seek medical care immediately")
                 self.size = (550, 200)
+                self.content.color = (1, 0, 0, 1)  # This sets the color to full red with opacity 1
             elif blood_pressure_sys >= 140 or blood_pressure_dia >= 90:
                 self.content = Label(text='Stage 2 hypertension')
+                self.content.color = (0.7, 0, 0, 1) #blood orange
             elif blood_pressure_sys >= 130 or blood_pressure_dia >= 80:
                 self.content = Label(text='Stage 1 hypertension')
+                self.content.color = (1, 0.5, 0, 1) #orange
         else:
             self.content = Label(text='Blood pressure is elevated') 
+            self.content.color = (1, 1, 0, 1)  # This sets the color to full yellow
 
-            
+
+
 
 
 #defining the child app.
